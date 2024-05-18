@@ -12,7 +12,7 @@
 export default {
   props: {
     mode: {
-      type: 'flat' || 'outline',
+      type: String,
       required: false,
       default: null,
     },

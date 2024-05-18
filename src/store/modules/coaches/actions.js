@@ -30,7 +30,7 @@ export default {
 
   async loadCoaches(ctx) {
     const response = await fetch(
-      `https://find-a-coach-vue-course-app-default-rtdb.europe-west1.firebasedatabase.app/coaches.jso`
+      `https://find-a-coach-vue-course-app-default-rtdb.europe-west1.firebasedatabase.app/coaches.json`
     );
 
     // Here we have to await `json()` because it's a promise method
