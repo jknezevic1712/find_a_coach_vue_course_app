@@ -1,4 +1,8 @@
 <template>
+  <base-dialog :show="!!error" title="An error occurred!" @close="handleError">
+    <p>{{ error }}</p>
+  </base-dialog>
+
   <section>
     <coach-filter @change-filter="setFilters" />
   </section>
@@ -6,12 +10,17 @@
   <section>
     <base-card>
       <div class="controls">
-        <base-button mode="outline">Refresh</base-button>
-        <base-button isLink to="/register" v-if="!isCoach"
+        <base-button mode="outline" @click="loadCoaches">Refresh</base-button>
+        <base-button isLink to="/register" v-if="!isCoach && !isLoading"
           >Register as Coach</base-button
         >
       </div>
-      <ul v-if="hasCoaches">
+
+      <div v-if="isLoading">
+        <base-spinner />
+      </div>
+
+      <ul v-else-if="hasCoaches">
         <coach-item
           :key="coach.id"
           v-for="coach in filteredCoaches"
@@ -22,6 +31,7 @@
           :areas="coach.areas"
         />
       </ul>
+
       <h3 v-else>No coaches found.</h3>
     </base-card>
   </section>
@@ -38,6 +48,8 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
+      error: null,
       activeFilters: {
         frontend: true,
         backend: true,
@@ -66,16 +78,33 @@ export default {
       });
     },
     hasCoaches() {
-      return this.$store.getters['coaches/hasCoaches'];
+      return !this.isLoading && this.$store.getters['coaches/hasCoaches'];
     },
     isCoach() {
       return this.$store.getters['coaches/isCoach'];
     },
   },
   methods: {
+    async loadCoaches() {
+      // Here we set `isLoading` to true and after the request is done, it will be set to false
+      this.isLoading = true;
+
+      try {
+        await this.$store.dispatch('coaches/loadCoaches');
+      } catch (err) {
+        this.error = err.message || 'Something went wrong!';
+      }
+      this.isLoading = false;
+    },
+    handleError() {
+      this.error = null;
+    },
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
     },
+  },
+  created() {
+    this.loadCoaches();
   },
 };
 </script>

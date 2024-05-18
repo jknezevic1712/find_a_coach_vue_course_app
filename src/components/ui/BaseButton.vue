@@ -3,7 +3,7 @@
     <slot></slot>
   </button>
 
-  <router-link v-if="isLink" :to="to" :class="mode">
+  <router-link v-else :to="to" :class="mode">
     <slot></slot>
   </router-link>
 </template>
@@ -12,7 +12,7 @@
 export default {
   props: {
     mode: {
-      type: String,
+      type: 'flat' || 'outline',
       required: false,
       default: null,
     },
