@@ -5,4 +5,7 @@ export default {
   token(s) {
     return s.token;
   },
+  isAuthenticated(s) {
+    return !!s.token;
+  },
 };
