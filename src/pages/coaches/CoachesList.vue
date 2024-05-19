@@ -1,42 +1,48 @@
 <template>
-  <base-dialog :show="!!error" title="An error occurred!" @close="handleError">
-    <p>{{ error }}</p>
-  </base-dialog>
+  <div>
+    <base-dialog
+      :show="!!error"
+      title="An error occurred!"
+      @close="handleError"
+    >
+      <p>{{ error }}</p>
+    </base-dialog>
 
-  <section>
-    <coach-filter @change-filter="setFilters" />
-  </section>
+    <section>
+      <coach-filter @change-filter="setFilters" />
+    </section>
 
-  <section>
-    <base-card>
-      <div class="controls">
-        <base-button mode="outline" @click="loadCoaches(true)"
-          >Refresh</base-button
-        >
-        <base-button isLink to="/register" v-if="!isCoach && !isLoading"
-          >Register as Coach</base-button
-        >
-      </div>
+    <section>
+      <base-card>
+        <div class="controls">
+          <base-button mode="outline" @click="loadCoaches(true)"
+            >Refresh</base-button
+          >
+          <base-button isLink to="/register" v-if="!isCoach && !isLoading"
+            >Register as Coach</base-button
+          >
+        </div>
 
-      <div v-if="isLoading">
-        <base-spinner />
-      </div>
+        <div v-if="isLoading">
+          <base-spinner />
+        </div>
 
-      <ul v-else-if="hasCoaches">
-        <coach-item
-          :key="coach.id"
-          v-for="coach in filteredCoaches"
-          :id="coach.id"
-          :firstName="coach.firstName"
-          :lastName="coach.lastName"
-          :rate="coach.hourlyRate"
-          :areas="coach.areas"
-        />
-      </ul>
+        <ul v-else-if="hasCoaches">
+          <coach-item
+            :key="coach.id"
+            v-for="coach in filteredCoaches"
+            :id="coach.id"
+            :firstName="coach.firstName"
+            :lastName="coach.lastName"
+            :rate="coach.hourlyRate"
+            :areas="coach.areas"
+          />
+        </ul>
 
-      <h3 v-else>No coaches found.</h3>
-    </base-card>
-  </section>
+        <h3 v-else>No coaches found.</h3>
+      </base-card>
+    </section>
+  </div>
 </template>
 
 <script>
