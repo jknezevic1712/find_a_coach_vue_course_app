@@ -10,7 +10,9 @@
   <section>
     <base-card>
       <div class="controls">
-        <base-button mode="outline" @click="loadCoaches">Refresh</base-button>
+        <base-button mode="outline" @click="loadCoaches(true)"
+          >Refresh</base-button
+        >
         <base-button isLink to="/register" v-if="!isCoach && !isLoading"
           >Register as Coach</base-button
         >
@@ -85,12 +87,12 @@ export default {
     },
   },
   methods: {
-    async loadCoaches() {
+    async loadCoaches(forceRefresh = false) {
       // Here we set `isLoading` to true and after the request is done, it will be set to false
       this.isLoading = true;
 
       try {
-        await this.$store.dispatch('coaches/loadCoaches');
+        await this.$store.dispatch('coaches/loadCoaches', forceRefresh);
       } catch (err) {
         this.error = err.message || 'Something went wrong!';
       }

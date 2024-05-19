@@ -28,7 +28,11 @@ export default {
     });
   },
 
-  async loadCoaches(ctx) {
+  async loadCoaches(ctx, forceRefresh) {
+    if (!forceRefresh && !ctx.getters.shouldUpdate) {
+      return;
+    }
+
     const response = await fetch(
       `https://find-a-coach-vue-course-app-default-rtdb.europe-west1.firebasedatabase.app/coaches.json`
     );
@@ -57,5 +61,6 @@ export default {
     });
 
     ctx.commit('setCoaches', coaches);
+    ctx.commit('setFetchTimestamp');
   },
 };
