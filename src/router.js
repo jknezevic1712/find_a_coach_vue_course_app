@@ -9,6 +9,8 @@ import RequestsReceived from './pages/requests/RequestsReceived.vue';
 import NotFound from './pages/NotFound.vue';
 import UserAuth from './pages/auth/UserAuth.vue';
 
+import store from './store';
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -34,20 +36,41 @@ const router = createRouter({
     {
       path: '/register',
       component: CoachRegistration,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/requests',
       component: RequestsReceived,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/auth',
       component: UserAuth,
+      meta: {
+        requiresUnauth: true,
+      },
     },
     {
       path: '/:notFound(.*)',
       component: NotFound,
     },
   ],
+});
+
+router.beforeEach((to, _from, next) => {
+  const isLoggedIn = store.getters.isAuthenticated;
+
+  if (to.meta.requiresAuth && !isLoggedIn) {
+    next('/auth');
+  } else if (to.meta.requiresUnauth && isLoggedIn) {
+    next('/');
+  } else {
+    next();
+  }
 });
 
 export default router;
