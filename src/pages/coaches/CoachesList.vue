@@ -22,7 +22,10 @@
             isLink
             to="/register"
             v-if="!isCoach && !isLoading && isLoggedIn"
-            >Register as Coach</base-button
+            >Register as coach</base-button
+          >
+          <base-button isLink to="/auth?redirect=register" v-if="!isLoggedIn"
+            >Login to register as coach</base-button
           >
         </div>
 
