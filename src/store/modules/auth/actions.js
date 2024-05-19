@@ -47,4 +47,11 @@ export default {
       tokenExpiration: resData.expiresIn,
     });
   },
+  logout(ctx) {
+    ctx.commit('setUser', {
+      token: null,
+      userID: null,
+      tokenExpiration: null,
+    });
+  },
 };
