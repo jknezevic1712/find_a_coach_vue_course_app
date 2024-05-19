@@ -9,9 +9,11 @@ export default {
       areas: data.areas,
     };
 
+    const authToken = ctx.rootGetters.token;
+
     // Result will be stored in the variable only when the request is done
     const response = await fetch(
-      `https://find-a-coach-vue-course-app-default-rtdb.europe-west1.firebasedatabase.app/coaches/${userID}.json`,
+      `https://find-a-coach-vue-course-app-default-rtdb.europe-west1.firebasedatabase.app/coaches/${userID}.json?auth=${authToken}`,
       {
         method: 'PUT',
         body: JSON.stringify(coachData),

@@ -1,5 +1,8 @@
 export default {
-  userID(state) {
-    return state.userID;
+  userID(s) {
+    return s.userID;
+  },
+  token(s) {
+    return s.token;
   },
 };
