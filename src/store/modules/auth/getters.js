@@ -8,4 +8,7 @@ export default {
   isAuthenticated(s) {
     return !!s.token;
   },
+  didAutoLogout(s) {
+    return s.didAutoLogout;
+  },
 };
